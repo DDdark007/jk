@@ -55,5 +55,5 @@ services:
     network_mode: host
     restart: always
     environment:
-      - MY_BOTTOKEN=5759647032:AAHPXukEy2bbqvsYn5eok89zM5QjZkTCUMA
-      - MY_CHATID=1001880740874
+      - MY_BOTTOKEN=XXX:YYY
+      - MY_CHATID=123456
