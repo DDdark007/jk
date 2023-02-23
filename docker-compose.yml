@@ -1,0 +1,59 @@
+version: "3"
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    user: root
+    network_mode: host
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./prometheus/conf:/etc/prometheus
+      - ./prometheus:/prometheus
+      - ./prometheus/rules:/prometheus/rules
+      - ./prometheus/blackbox:/prometheus/blackbox
+    environment:
+      TZ: Asia/Shanghai
+    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --storage.tsdb.retention=30d
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:latest
+    user: root
+    network_mode: host
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./alertmanager/conf:/etc/alertmanager
+      - ./alertmanager/data:/alertmanager
+    environment:
+      TZ: Asia/Shanghai
+  blackbox-exporter:
+    container_name: blackbox-exporter
+    image: prom/blackbox-exporter:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./blackbox/blackbox_exporter:/etc/blackbox_exporter
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    user: root
+    network_mode: host
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      GF_PATHS_DATA: /data/grafana/data
+      GF_PATHS_LOGS: /data/grafana/logs
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./grafana:/data/grafana 
+      - ./grafana/plugins:/var/lib/grafana/plugins
+  botgoalng:
+    container_name: botgoalng
+    image: dark1123/botgoalng:latest
+    network_mode: host
+    restart: always
+    environment:
+      - MY_BOTTOKEN=5759647032:AAHPXukEy2bbqvsYn5eok89zM5QjZkTCUMA
+      - MY_CHATID=1001880740874
