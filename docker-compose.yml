@@ -49,6 +49,15 @@ services:
       - /etc/localtime:/etc/localtime
       - ./grafana:/data/grafana 
       - ./grafana/plugins:/var/lib/grafana/plugins
+  mysqlexporter:
+    image: prom/mysqld-exporter
+    restart: always
+    ports:
+      - "9104:9104"
+    environment:
+      - DATA_SOURCE_NAME=root:password@(mysql:3306)/database
+    volumes:
+      - /etc/localtime:/etc/localtime
   botgoalng:
     container_name: botgoalng
     image: dark1123/botgoalng:latest
